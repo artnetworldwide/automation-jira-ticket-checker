@@ -1,6 +1,6 @@
 # jira-ticket-checker
 
-> A GitHub App built with [Probot](https://github.com/probot/probot) that A Probot app that enforces the linkage of a JIRA ticket to a pull request before it can be merged
+> A GitHub App built with [Probot](https://github.com/probot/probot) that enforces the linkage of a Jira ticket to a pull request before it can be merged
 
 ## Installation
 After installing the app, create a `.github/config.yml` file in the default branch of either:
