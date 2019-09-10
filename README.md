@@ -1,0 +1,1 @@
+# automation-jira-ticket-checker
