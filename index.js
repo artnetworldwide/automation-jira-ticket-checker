@@ -165,5 +165,5 @@ const check = async context => {
 };
 
 module.exports = app => {
-  app.on(["pull_request.opened", "pull_request.edited", "pull_request.reopened", "pull_request.synchronize"], check);
+  app.on(["pull_request.opened", "pull_request.edited", "pull_request.reopened", "pull_request.synchronize", "pull_request.review_requested"], check);
 };
