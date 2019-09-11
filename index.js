@@ -12,7 +12,7 @@ const createCheck = ({ pass, failureStatus, output, startedAt, context }) => {
   const pullRequest = context.payload.pull_request;
 
   let checkOptions = {
-    name: "Jira Ticket Checker",
+    name: "jira-ticket-checker",
     head_sha: pullRequest.head.sha,
     started_at: startedAt
   };
