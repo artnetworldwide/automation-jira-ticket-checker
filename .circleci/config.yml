@@ -6,6 +6,16 @@ executors:
       - image: node:10.16.3-buster
 
 jobs:
+  lint_test:
+    executor: cd
+    steps:
+      - checkout
+      - run:
+          name: Lint repository
+          command: echo TODO
+      - run:
+          name: Test repository
+          command: echo TODO
   deploy:
     executor: cd
     steps:
@@ -19,6 +29,7 @@ workflows:
   version: 2
   workflow:
     jobs:
+      - lint_test
       - deploy:
           filters:
             branches:
