@@ -3,10 +3,13 @@
 > A GitHub App built with [Probot](https://github.com/probot/probot) that enforces the linkage of a Jira ticket to a pull request before it can be merged
 
 ## Installation
+
+`jira-ticket-checker` can be installed by visiting https://github.com/apps/jira-ticket-checker
+
 After installing the app, create a `.github/config.yml` file in the default branch of either:
 
-1. The repository you want the configuration to be applied in or
-2. A repository with the name `.github` to apply the configuration to all repositories
+1. The repository you want the configuration to be applied in (where `jira-ticket-checker` is installed) or
+2. A repository with the name `.github` to apply the configuration to all repositories that have `jira-ticket-checker` installed
 
 Repositories can belong to either a user account or organization.
 
