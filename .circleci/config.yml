@@ -1,0 +1,30 @@
+version: 2.1
+
+executors:
+  cd:
+    docker:
+      - image: artnetdev.azurecr.io/automation-dockerimage-cd:1.0.3
+        auth:
+          username: $DOCKER_USER_RO
+          password: $DOCKER_PASSWORD_RO
+
+jobs:
+  deploy:
+    executor: cd
+    steps:
+      - checkout
+      - run:
+          name: Synchronize deployment with Github repository
+          command: |
+            npx sync-glitch-cli
+  
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+          context: org-global-v2
