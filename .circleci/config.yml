@@ -3,7 +3,7 @@ version: 2.1
 executors:
   cd:
     docker:
-      - image: circleci/node:10.16
+      - image: node:10.16.3-buster
 
 jobs:
   deploy:
@@ -24,4 +24,3 @@ workflows:
             branches:
               only:
                 - master
-          context: org-global-v2
