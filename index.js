@@ -96,6 +96,17 @@ const check = async context => {
       context
     });
   }
+  
+  const regexFromString = (str) => {
+    const [, pattern, flag] = /^\/(.*)\/([a-z]*)$/.exec(str)
+    return new RegExp(pattern, flag)
+  }
+
+  const headBranchExcluded = config.exclusionRegEx ? regexFromString(config.exclusionRegEx).test(branch) : false
+
+  if (headBranchExcluded) {
+    return createCheck({ pass: true, startedAt, context });
+  }
 
   const validatedJiraRefs = jiraRefs.map(ref =>
     validateJiraRefs(ref, config.jiraBaseUrl)
