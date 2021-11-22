@@ -6,7 +6,7 @@
 >/rest/api/2/issue/<jira_ticket_number>` and uses the JSON response to determine the ticket number's validity.
 ## Installation
 
-1. Go to [github.com/settings/apps/jira-ticket-checker/installations](https://github.com/settings/apps/jira-ticket-checker/installations)
+1. Go to [github.com/settings/apps/jira-ticket-checker/installations](https://github.com/settings/apps/jira-ticket-checker/installations) - TODO: set up this in artnetwolrdwide
 1. Click *Install* on your account
 1. Choose either *All Repositories* or *Only selected repositories* 
 1. Click *Save*
