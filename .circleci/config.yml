@@ -44,6 +44,9 @@ jobs:
           command: helm template charts/jira-ticket-checker/ | istioctl validate -f -
       - setup_cicd_tools
       - run:
+          name: Set version for this project (outputs version-full.txt), and tag, if master branch
+          command: cicd_tools version set typescript      
+      - run:
           name: Build docker image
           environment:
             DOCKER_BUILDKIT: 1
