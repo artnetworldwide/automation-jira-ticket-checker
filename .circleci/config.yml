@@ -68,4 +68,6 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - deploy
+      - deploy:
+          context: org-global-v2
+
