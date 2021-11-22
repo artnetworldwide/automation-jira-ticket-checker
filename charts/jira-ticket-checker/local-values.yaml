@@ -1,0 +1,3 @@
+imageTag: local
+imagePullSecrets: []
+nodeEnv: production

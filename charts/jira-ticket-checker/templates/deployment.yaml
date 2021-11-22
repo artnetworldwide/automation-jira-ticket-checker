@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "name" . }}
+    release: {{ .Release.Name }}
+    version: {{ .Chart.Version }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        version: {{ .Chart.Version }}
+    spec:
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      {{- end }}
+      containers:
+      - name: "{{ template "name" . }}"
+        image: "{{ required "A valid image is required!" .Values.image }}:{{ template "imageTag" . }}"
+        ports:
+        - containerPort: {{ .Values.internalPort}}
+        env:
+        - name: NODE_ENV
+          value: {{ required "nodeEnv is required" .Values.nodeEnv }}
+        - name: APP_ID
+          value: "{{ required "appId is required" .Values.appId }}"
+        - name: PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: jira-ticket-checker
+              key: privateKey
+        - name: WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jira-ticket-checker
+              key: webhookSecret

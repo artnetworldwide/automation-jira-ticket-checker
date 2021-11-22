@@ -1,0 +1,5 @@
+name: jira-ticket-checker
+apiVersion: v1
+description: Hello world example for node.js TypeScript project
+home: https://github.com/artnetworldwide/jira-ticket-checker
+version: 0.0.0-local
