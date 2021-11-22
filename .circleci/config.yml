@@ -14,7 +14,7 @@ commands:
     parameters:
       version:
         type: string
-        default: "6.3.0"
+        default: "6.3.4"
     steps:
       - restore_cache:
           keys:
