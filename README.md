@@ -42,8 +42,8 @@ jiraBaseUrl: https://www.YourJiraUrl.com
 
     Docker
     ```bash
-    docker build -t artnet/jira-ticket-checker:latest .
-    docker run -p 3000:3000 artnet/jira-ticket-checker
+    docker build -t jira-ticket-checker:local .
+    docker run --rm -p 3000:3000 jira-ticket-checker:local 
     ``` 
 
 1. Go to [localhost:3000/probot](http://localhost:3000/probot) and click *Register Github App*

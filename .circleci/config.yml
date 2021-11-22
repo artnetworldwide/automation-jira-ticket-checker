@@ -1,37 +1,71 @@
 version: 2.1
 
 executors:
-  cd:
+  ci:
     docker:
-      - image: node:10.16.3-buster
+      - image: artnetworldwide/automation-dockerimage-ci:4.0.0
+        auth:
+          username: $DOCKER_PUBLIC_REGISTRY_USER
+          password: $DOCKER_PUBLIC_REGISTRY_PASSWORD
 
-jobs:
-  lint_test:
-    executor: cd
+commands:
+  setup_cicd_tools:
+    description: "Download and install Python package: cicd_tools"
+    parameters:
+      version:
+        type: string
+        default: "6.3.0"
     steps:
-      - checkout
+      - restore_cache:
+          keys:
+            - v2-cicd_tools-cache-<< parameters.version >>
       - run:
-          name: Lint repository
-          command: echo TODO
-      - run:
-          name: Test repository
-          command: echo TODO
-  deploy:
-    executor: cd
-    steps:
-      - checkout
-      - run:
-          name: Synchronize deployment with Github repository
+          name: setup cicd_tools
           command: |
-            npx sync-glitch-cli
+            pip install --user --cache-dir /pip_cache/cicd_tools/ \
+              --extra-index-url "$PYPI_FEED_PIP_INDEX_URL" \
+              cicd_tools==<< parameters.version >>
+      - save_cache:
+          name: save python package cache for cicd_tools
+          key: v2-cicd_tools-cache-<< parameters.version >>
+          paths:
+            - /pip_cache/cicd_tools/
+
+jobs:  
+  deploy:
+    executor: ci
+    steps:
+      - checkout
+      - run:
+          name: Lint the helm chart
+          command: helm lint --strict charts/jira-ticket-checker
+      - run:
+          name: Validate the helm chart is compatible with istio
+          command: helm template charts/jira-ticket-checker/ | istioctl validate -f -
+      - setup_cicd_tools
+      - run:
+          name: Build docker image
+          environment:
+            DOCKER_BUILDKIT: 1
+          command: |
+            cicd_tools build docker \
+              --name "gcr.io/artnet-docker-registry/jira-ticket-checker"
+      - run:
+          name: Publish docker image
+          command: |
+            cicd_tools publish docker \
+              --name "gcr.io/artnet-docker-registry/jira-ticket-checker" \
+              --registry gcr.io \
+              -u "$DOCKER_USER_RW_GOOGLE" \
+              -p "$DOCKER_PASSWORD_RW_GOOGLE"
+      - run:
+          name: Publish helm chart
+          command: |
+            cicd_tools publish helm \
+              --chart-dir "charts/jira-ticket-checker"
   
 workflows:
   version: 2
   workflow:
     jobs:
-      - lint_test
-      - deploy:
-          filters:
-            branches:
-              only:
-                - master
+      - deploy

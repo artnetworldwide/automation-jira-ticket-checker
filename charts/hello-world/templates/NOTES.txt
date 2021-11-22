@@ -1,1 +1,0 @@
-hello-world chart was deployed to Kubernetes

@@ -1,0 +1,11 @@
+name: jira-ticket-checker
+replicaCount: 1
+revisionHistoryLimit: 1
+image: jira-ticket-checker
+internalPort: 3000
+externalPort: 3000
+imagePullSecrets: []
+imageTag: ''
+nodeEnv: production
+appId: "40770"
+
